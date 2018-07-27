@@ -1,0 +1,38 @@
+{
+  "manifest_version": 2,
+  "name": "Copy Markdown link",
+  "version": "{{version}}",
+  "version_name": "{{version_name}}",
+  "description": "Copy a Markdown link",
+  "author": "{{{author}}}",
+  "homepage_url": "{{{homepage}}}",
+  "icons": {
+    "48": "copy-link.svg"
+  },
+  "applications": {
+    "gecko": {
+      "id": "copy-markdown-link@mozilla.org",
+      "strict_min_version": "57.0a1"
+    }
+  },
+  "background": {
+    "scripts": [
+      "background.js"
+    ]
+  },
+  "page_action": {
+    "browser_style": true,
+    "default_icon": {
+      "19": "copy-link.svg"
+    },
+    "default_title": "Copy Markdown",
+    "show_matches": ["<all_urls>"]
+  },
+  "permissions": [
+    "activeTab",
+    "tabs",
+    "menus",
+    "contextMenus",
+    "clipboardWrite"
+  ]
+}

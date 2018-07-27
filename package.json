@@ -1,0 +1,45 @@
+{
+  "name": "copy-url-extension",
+  "description": "Copy the URL and title to the clipboard",
+  "version": "0.1.0",
+  "author": "Ian Bicking",
+  "bugs": {
+    "url": "https://github.com/ianb/copy-url-extension"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "eslint": "^4.16.0",
+    "eslint-plugin-mozilla": "^0.6.0",
+    "eslint-plugin-no-unsanitized": "^2.0.2",
+    "mustache": "^2.3.0",
+    "npm-run-all": "^4.1.3",
+    "web-ext": "^2.7.0"
+  },
+  "homepage": "https://github.com/ianb/copy-url-extension/",
+  "license": "MPL-2.0",
+  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ianb/copy-url-extension.git"
+  },
+  "scripts": {
+    "start": "npm run start:md",
+    "start:md": "npm-run-all build run:md",
+    "start:html": "npm-run-all build run:html",
+    "lint": "npm-run-all lint:*",
+    "lint:md:addon": "web-ext lint -s addon",
+    "lint:html:addon": "web-ext lint -s addon",
+    "lint:js": "eslint addon --ext=js",
+    "build": "npm-run-all build:*:*",
+    "build:md:manifest": "node -e 'let input = JSON.parse(fs.readFileSync(\"package.json\")); input.version = input.version.slice(0, -1) + Math.floor((Date.now() - new Date(new Date().getFullYear().toString()).getTime()) / 3600000); input.version_name = `${input.version} ${process.env.NODE_ENV === \"prod\" ? \"release\" : \"dev\"}`; console.log(JSON.stringify(input))' | mustache - addon-md/manifest.json.tmpl > addon-md/manifest.json",
+    "build:html:manifest": "node -e 'let input = JSON.parse(fs.readFileSync(\"package.json\")); input.version = input.version.slice(0, -1) + Math.floor((Date.now() - new Date(new Date().getFullYear().toString()).getTime()) / 3600000); input.version_name = `${input.version} ${process.env.NODE_ENV === \"prod\" ? \"release\" : \"dev\"}`; console.log(JSON.stringify(input))' | mustache - addon-html/manifest.json.tmpl > addon-html/manifest.json",
+    "xpi:md:web-ext": "web-ext build --source-dir=addon-md --overwrite-dest --ignore-files '*.tmpl'",
+    "xpi:html:web-ext": "web-ext build --source-dir=addon-html --overwrite-dest --ignore-files '*.tmpl'",
+    "package:md": "NODE_ENV=prod npm-run-all build:md:* xpi:md:* && cp web-ext-artifacts/`ls -t1 web-ext-artifacts | head -n 1` addon-md.xpi",
+    "package:html": "NODE_ENV=prod npm-run-all build:html* xpi:html:* && cp web-ext-artifacts/`ls -t1 web-ext-artifacts | head -n 1` addon-html.xpi",
+    "run:md": "mkdir -p ./Profile && npm run build:md:manifest && web-ext run --source-dir=addon-md -p ./Profile --browser-console --keep-profile-changes -f ${FIREFOX:-nightly}",
+    "run:html": "mkdir -p ./Profile && npm run build:html:manifest && web-ext run --source-dir=addon-html -p ./Profile --browser-console --keep-profile-changes -f ${FIREFOX:-nightly}",
+    "test": "npm run lint",
+    "postinstall": "npm run build"
+  }
+}

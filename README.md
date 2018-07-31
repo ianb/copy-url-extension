@@ -2,6 +2,18 @@
 
 This has a couple super-small extensions, one to copy HTML links of a page, and another to copy Markdown links.
 
+That is, they copy:
+
+* `<a href="URL">TITLE</a>` (good for pasting into an email or document)
+* `[TITLE](URL)` (good for pasting into a Markdown document)
+
+## Installing
+
+These add-ons are both published on addons.mozilla.org:
+
+* [Copy Markdown link](https://addons.mozilla.org/en-US/firefox/addon/copy-markdown-link/)
+* [Copy HTML link](https://addons.mozilla.org/en-US/firefox/addon/copy-html-link/)
+
 ## Developing
 
 To install and test out:
@@ -10,8 +22,8 @@ To install and test out:
 git clone https://github.com/ianb/copy-url-extension.git
 cd copy-url-extension
 npm install
-npm start:md   # Test Markdown version
-npm start:html # Text HTML version
+npm run start:md   # Test Markdown version
+npm run start:html # Text HTML version
 ```
 
 ### Contact & Contribution

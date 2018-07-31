@@ -5,8 +5,6 @@ module.exports = {
   },
   "extends": [
     "eslint:recommended",
-    "plugin:react/recommended",
-    "plugin:jsx-a11y/recommended",
     "plugin:mozilla/recommended"
   ],
   "parserOptions": {
@@ -14,7 +12,6 @@ module.exports = {
     "sourceType": "module"
   },
   "plugins": [
-    "jsx-a11y",
     "mozilla"
   ],
   "root": true,
